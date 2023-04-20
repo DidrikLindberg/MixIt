@@ -1,77 +1,61 @@
-// Define variables
-var cocktailImg = document.getElementById('cocktail-img');
-var cocktailName = document.getElementById('cocktail-name');
-var cocktailDesc = document.getElementById('cocktail-desc');
-var cocktailIngredients = document.getElementById('cocktail-ingredients');
-var prevButton = document.getElementById('prev-button');
-var nextButton = document.getElementById('next-button');
+document.addEventListener('DOMContentLoaded', async function() {
+  // Define variables
+  var cocktailImg = document.getElementById('cocktail-img');
+  var cocktailName = document.getElementById('cocktail-name');
+  var cocktailDesc = document.getElementById('cocktail-desc');
+  var cocktailIngredients = document.getElementById('cocktail-ingredients');
+  var prevButton = document.getElementById('prev-button');
+  var nextButton = document.getElementById('next-button');
 
-//create the img container that will hold the generated img
-var imgContainer = document.createElement('div');
-imgContainer.setAttribute('id', 'img-container');
-cocktailImg.appendChild(imgContainer);
+  // Call the function to get a random cocktail when the page loads
+  await getRandomCocktail();
 
 
-// Define event listeners for buttons
-// create the button elements
-var prevButton = document.createElement('button');
-var nextButton = document.createElement('button');
 
-prevButton.addEventListener('click', getPreviousCocktail);
-nextButton.addEventListener('click', getNextCocktail);
+  // Define function to get a random cocktail
+  async function getRandomCocktail() {
+    try {
+      // Make request to the API to get a random cocktail
+      const cocktailResponse = await fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php');
+      const cocktailData = await cocktailResponse.json();
 
-// Call the function to get a random cocktail when the page loads
-getRandomCocktail();
+      // Get the cocktail name and update the HTML
+      const cocktailName = cocktailData.drinks[0].strDrink;
+      document.getElementById('cocktail-name').innerHTML = cocktailName;
 
-// Define function to get a random cocktail
-async function getRandomCocktail() {
-  try {
-    // Make request to the API to get a random cocktail
-    const cocktailResponse = await fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php');
-    const cocktailData = await cocktailResponse.json();
-    
-    // Update the HTML with the cocktail name, description, and ingredients
-    cocktailName.innerHTML = cocktailData.drinks[0].strDrink;
-    cocktailDesc.innerHTML = cocktailData.drinks[0].strInstructions;
-    cocktailIngredients.innerHTML = '<ul>' + getIngredientsList(cocktailData.drinks[0]) + '</ul>';
-    console.log(cocktailData);
-    
-    // Get a random image from the Unsplash API
-    //declare the api key variable
-    // Get an image from the Unsplash API with the query parameter set to the title of the cocktail
-    const query = cocktailData.drinks[0].strDrink;
-    const imageResponse = await fetch('https://api.unsplash.com/photos/random?query=cocktail ' + query + '&client_id=sT0es0ihMsCnFqKB9kCCqrBXmz-xhh0Xo5i3LgdWLYU');
-    const imageData = await imageResponse.json()
-    console.log(imageData);
-    
-    // Update the HTML with the cocktail image
-    cocktailImg.setAttribute('src', imageData.urls.regular);
-  } catch (error) {
-    console.log(error);
-  }
-}
+      // Get the cocktail description and update the HTML
+      const cocktailDesc = cocktailData.drinks[0].strInstructions;
+      document.getElementById('cocktail-desc').innerHTML = cocktailDesc;
 
-// Define function to get the previous cocktail
-async function getPreviousCocktail() {
-  // Make a request to the API to get the previous cocktail
-  // Update the HTML with the new cocktail data
-}
+      // Get the cocktail ingredients and update the HTML
+      const ingredients = getIngredientsList(cocktailData);
+      document.getElementById('cocktail-ingredients').innerHTML = '<ul>' + ingredients + '</ul>';
 
-// Define function to get the next cocktail
-async function getNextCocktail() {
-  // Make a request to the API to get the next cocktail
-  // Update the HTML with the new cocktail data
-}
+      // Get the cocktail image and update the HTML
+      const cocktailImgUrl = cocktailData.drinks[0].strDrinkThumb;
+      cocktailImg.setAttribute('src', cocktailImgUrl);
 
-// Define function to get a list of ingredients for a cocktail
-function getIngredientsList(cocktail) {
-  let ingredientsList = '';
-  for (let i = 1; i <= 15; i++) {
-    if (cocktail['strIngredient' + i]) {
-      ingredientsList += '<li>' + cocktail['strIngredient' + i] + ' - ' + cocktail['strMeasure' + i] + '</li>';
-    } else {
-      break;
+    } catch (error) {
+      console.log(error);
     }
   }
-  return ingredientsList;
-}
+
+  
+  // Define function to get a list of ingredients for a cocktail
+  function getIngredientsList(data) {
+    let ingredientsList = '';
+    for (let i = 1; i <= 15; i++) {
+      const ingredient = data.drinks[0]['strIngredient' + i];
+      const measure = data.drinks[0]['strMeasure' + i];
+      if (ingredient && measure) {
+        ingredientsList += '<li>' + measure + ' ' + ingredient + '</li>';
+      } else if (ingredient) {
+        ingredientsList += '<li>' + ingredient + '</li>';
+      } else {
+        break;
+      }
+    }
+    return ingredientsList;
+  }
+});
+

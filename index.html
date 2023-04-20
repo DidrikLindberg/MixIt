@@ -4,32 +4,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="/assets/styles.css">
     <title>Document</title>
 </head>
 <body>
     <!-- add a hero, main part with an img element in the middle of the page -->
-    <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <div class="hero">
-              <img id="cocktail-img" src="" alt="Cocktail Image" />
-              <div id="cocktail-details">
-                <h2 id="cocktail-name"></h2>
-                <p id="cocktail-desc"></p>
-                <h3>Ingredients:</h3>
-                <ul id="cocktail-ingredients"></ul>
-              </div>
-            </div>
-            <div class="buttons">
-              <button id="prev-button">Previous Cocktail</button>
-              <button id="next-button">Next Cocktail</button>
-            </div>
+    <body>
+      <div class="container-sm mt-5">        
+        <div class="card mb-4">
+          <img class="card-img-top" id="cocktail-img" alt="Cocktail Image">
+          <div class="card-body">
+            <h2 class="card-title" id="cocktail-name"></h2>
+            <p class="card-text" id="cocktail-desc"></p>
+            <ul class="list-group list-group-flush" id="cocktail-ingredients"></ul>
           </div>
         </div>
-      </div>
-    <!-- add a footer with a p element -->
+    
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-secondary" id="prev-button">Save Cocktail</button>
+          <button class="btn btn-primary" id="next-button">Next Cocktail</button>
+        </div>
+      </div>    <!-- add a footer with a p element -->
 
 
 
