@@ -1,11 +1,16 @@
 document.addEventListener('DOMContentLoaded', async function() {
   // Define variables
   var cocktailImg = document.getElementById('cocktail-img');
-  var cocktailName = document.getElementById('cocktail-name');
-  var cocktailDesc = document.getElementById('cocktail-desc');
-  var cocktailIngredients = document.getElementById('cocktail-ingredients');
-  var prevButton = document.getElementById('prev-button');
-  var nextButton = document.getElementById('next-button');
+
+
+// define nextButton variable
+var nextButton = document.getElementById('next-button');
+
+
+// add event listener to the next cocktail button
+nextButton.addEventListener('click', async function() {
+  await getRandomCocktail();
+});
 
   // Call the function to get a random cocktail when the page loads
   await getRandomCocktail();
@@ -58,4 +63,3 @@ document.addEventListener('DOMContentLoaded', async function() {
     return ingredientsList;
   }
 });
-
